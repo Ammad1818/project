@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Muhammad Ammad — Software Engineer &amp; Web Developer</title>
+<meta name="description" content="Muhammad Ammad — BS Software Engineering graduate from Karachi. React.js, Python, SQL and AI-powered digital branding."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@200;300;400;500;600;700&family=Noto+Nastaliq+Urdu:wght@400;600;700&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --bg: #0b0b0c;
+  --bg2: #111113;
+  --cream: #f0ece4;
+  --gold: #c8a96e;
+  --gold2: #e8c88e;
+  --dim: rgba(240,236,228,0.62);
+  --border: rgba(240,236,228,0.1);
+  --font-display: 'Bebas Neue', sans-serif;
+  --font-body: 'Outfit', sans-serif;
+  --font-urdu: 'Noto Nastaliq Urdu', serif;
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{overflow-x:hidden;scroll-behavior:smooth;scroll-padding-top:80px;}
+body{background:var(--bg);color:var(--cream);font-family:var(--font-body);font-weight:300;overflow-x:hidden;}
+a{color:inherit;text-decoration:none;}
+svg{display:block;}
+
+/* Loader (short, never blocks clicks) */
+#loader{position:fixed;inset:0;background:var(--bg);z-index:10000;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .5s ease,visibility .5s ease;}
+#loader.gone{opacity:0;visibility:hidden;pointer-events:none;}
+.loader-name{font-family:var(--font-display);font-size:clamp(3.5rem,12vw,8rem);letter-spacing:.06em;color:var(--cream);}
+.loader-line{width:0;height:1px;background:var(--gold);margin-top:12px;animation:expandLine .6s ease .1s forwards;}
+@keyframes expandLine{to{width:160px;}}
+
+#sp{position:fixed;top:0;left:0;height:2px;background:var(--gold);z-index:1001;width:0;}
+
+/* ===== HEADER (only #nav is fixed) ===== */
+#nav{
+  position:fixed;top:0;left:0;right:0;z-index:1000;
+  padding:20px 5%;
+  display:flex;align-items:center;justify-content:space-between;gap:20px;
+  transition:padding .3s,background .3s,border-color .3s;
+  border-bottom:1px solid transparent;
+}
+#nav.compact{padding:12px 5%;background:rgba(11,11,12,.92);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom-color:var(--border);}
+.nav-name{font-family:var(--font-display);font-size:1.6rem;letter-spacing:.08em;color:var(--cream);}
+.nav-name span{color:var(--gold);}
+.nav-right{display:flex;align-items:center;gap:26px;}
+.nav-links{display:flex;gap:26px;list-style:none;}
+.nav-links a{position:relative;font-size:.76rem;font-weight:400;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);padding:6px 0;transition:color .2s;}
+.nav-links a::after{content:'';position:absolute;left:0;bottom:0;height:1px;width:0;background:var(--gold);transition:width .3s;}
+.nav-links a:hover,.nav-links a.active{color:var(--cream);}
+.nav-links a:hover::after,.nav-links a.active::after{width:100%;}
+
+.nav-actions{display:flex;align-items:center;gap:10px;padding-left:22px;border-left:1px solid var(--border);}
+.icon-btn{width:36px;height:36px;border:1px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--dim);transition:color .25s,border-color .25s,background .25s;}
+.icon-btn:hover{color:var(--gold);border-color:var(--gold);background:rgba(200,169,110,.08);}
+.icon-btn svg{width:16px;height:16px;fill:currentColor;}
+.nav-cv{padding:9px 18px;border:1px solid var(--gold);border-radius:100px;font-size:.72rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);transition:all .25s;white-space:nowrap;}
+.nav-cv:hover{background:var(--gold);color:var(--bg);}
+
+.lang-pill{display:flex;align-items:center;gap:6px;border:1px solid var(--border);border-radius:100px;padding:7px 13px;cursor:pointer;transition:border-color .3s;background:transparent;}
+.lang-pill:hover{border-color:var(--gold);}
+.lpb{font-size:.72rem;color:var(--dim);transition:color .2s;letter-spacing:.06em;}
+.lpb.on{color:var(--gold);font-weight:600;}
+.lps{color:var(--border);font-size:.8rem;}
+
+.mob-btn{display:none;background:none;border:1px solid var(--border);color:var(--cream);width:38px;height:38px;border-radius:8px;font-size:1.1rem;cursor:pointer;align-items:center;justify-content:center;}
+.mob-drawer{display:none;position:fixed;top:64px;left:0;right:0;z-index:999;background:rgba(11,11,12,.98);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);padding:18px 5% 24px;flex-direction:column;gap:4px;}
+.mob-drawer.open{display:flex;}
+.mob-drawer a.m-link{font-size:.9rem;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);padding:13px 0;border-bottom:1px solid var(--border);}
+.mob-drawer a.m-link:hover{color:var(--cream);}
+.mob-social{display:flex;gap:10px;margin-top:16px;align-items:center;}
+.mob-social .nav-cv{margin-left:auto;}
+
+/* Hero */
+#hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:110px 5% 50px;position:relative;overflow:hidden;}
+.hero-bg-text{position:absolute;font-family:var(--font-display);font-size:clamp(10rem,28vw,26rem);color:rgba(240,236,228,.022);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;white-space:nowrap;user-select:none;}
+.geo{position:absolute;pointer-events:none;}
+.geo1{top:14%;right:8%;width:180px;height:180px;border:1px solid rgba(200,169,110,.1);border-radius:50%;}
+.geo2{bottom:20%;left:5%;width:80px;height:80px;border:1px solid rgba(200,169,110,.08);}
+
+.hero-top{display:flex;align-items:flex-end;justify-content:space-between;gap:30px;position:relative;z-index:2;}
+.hero-label{font-size:.74rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:16px;display:flex;align-items:center;gap:10px;}
+.hero-label::before{content:'';width:30px;height:1px;background:var(--gold);}
+.hero-main-name{font-family:var(--font-display);font-size:clamp(4rem,12vw,11.5rem);line-height:.92;letter-spacing:.01em;display:block;}
+.hero-main-name .n1{display:block;color:var(--cream);}
+.hero-main-name .n2{display:block;-webkit-text-stroke:1px rgba(240,236,228,.35);color:transparent;}
+
+.hero-side-info{text-align:right;max-width:320px;}
+.hero-side-info p{font-size:.88rem;color:var(--dim);line-height:1.8;}
+.hero-side-info .role{font-family:var(--font-display);font-size:1.6rem;color:var(--cream);margin-bottom:8px;letter-spacing:.05em;}
+
+.hero-bottom{display:flex;align-items:center;justify-content:space-between;padding-top:30px;border-top:1px solid var(--border);margin-top:32px;position:relative;z-index:2;gap:20px;flex-wrap:wrap;}
+.typing-area{display:flex;align-items:center;gap:12px;}
+.typing-label{font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;color:var(--dim);}
+.typing-word{font-family:var(--font-display);font-size:1.5rem;letter-spacing:.05em;background:linear-gradient(90deg,var(--gold),var(--gold2));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
+.t-cursor{display:inline-block;width:2px;height:1.3em;background:var(--gold);vertical-align:middle;margin-left:3px;animation:blink .7s step-end infinite;}
+@keyframes blink{50%{opacity:0;}}
+.hero-cta-group{display:flex;align-items:center;gap:14px;flex-wrap:wrap;}
+.btn-cv{display:inline-flex;align-items:center;gap:10px;padding:13px 28px;border:1px solid var(--gold);background:var(--gold);color:var(--bg);border-radius:100px;font-size:.78rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;transition:background .3s,color .3s,transform .3s;}
+.btn-cv:hover{background:transparent;color:var(--gold);transform:translateY(-2px);}
+.btn-ghost{display:inline-flex;align-items:center;gap:8px;padding:13px 24px;border:1px solid var(--border);border-radius:100px;font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;color:var(--cream);transition:border-color .3s,color .3s;}
+.btn-ghost:hover{border-color:var(--gold);color:var(--gold);}
+.btn-ghost svg{width:15px;height:15px;fill:currentColor;}
+
+/* Ticker */
+.ticker{width:100%;overflow:hidden;border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:14px 0;background:var(--bg);}
+.ticker-inner{display:flex;animation:tickerScroll 32s linear infinite;width:max-content;}
+.ticker-item{display:flex;align-items:center;gap:20px;font-family:var(--font-display);font-size:1rem;letter-spacing:.12em;color:var(--dim);white-space:nowrap;padding:0 30px;text-transform:uppercase;}
+.ticker-dot{color:var(--gold);font-size:.55rem;}
+.ticker.rev .ticker-inner{animation-direction:reverse;}
+@keyframes tickerScroll{to{transform:translateX(-50%);}}
+
+/* Sections */
+.section{padding:110px 5%;}
+.section-tag{display:inline-flex;align-items:center;gap:10px;font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:18px;}
+.section-tag::before{content:'';width:24px;height:1px;background:var(--gold);}
+h2.section-title{font-family:var(--font-display);font-size:clamp(2.6rem,6.5vw,5rem);line-height:.98;letter-spacing:.01em;margin-bottom:46px;font-weight:400;}
+h2.section-title em{font-style:normal;color:var(--gold);}
+.rv{opacity:0;transform:translateY(28px);transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1);}
+.rv.on{opacity:1;transform:translateY(0);}
+
+/* About */
+#about{border-top:1px solid var(--border);}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:70px;align-items:center;}
+.about-quote{font-family:var(--font-display);font-size:clamp(2rem,4.3vw,3.3rem);line-height:1.1;letter-spacing:.02em;}
+.about-quote em{font-style:normal;color:var(--gold);}
+.about-text{color:var(--dim);font-size:.94rem;line-height:1.95;border-left:1px solid var(--border);padding-left:32px;}
+.about-text strong{color:var(--cream);font-weight:500;}
+.about-stats{display:grid;grid-template-columns:1fr 1fr;gap:1px;margin-top:44px;border:1px solid var(--border);background:var(--border);}
+.stat{padding:24px 22px;background:var(--bg2);}
+.stat-num{font-family:var(--font-display);font-size:2.4rem;letter-spacing:.02em;}
+.stat-label{font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-top:4px;}
+
+/* Skills */
+#skills{background:var(--bg2);border-top:1px solid var(--border);}
+.skills-lead{max-width:640px;color:var(--dim);font-size:.92rem;line-height:1.85;margin:-20px 0 44px;}
+.skill-groups{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;border:1px solid var(--border);background:var(--border);}
+.sg{background:var(--bg2);padding:30px 26px;transition:background .3s;}
+.sg:hover{background:#151517;}
+.sg-title{font-family:var(--font-display);font-size:1.4rem;letter-spacing:.05em;margin-bottom:6px;}
+.sg-sub{font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:18px;}
+.sg ul{list-style:none;display:flex;flex-direction:column;gap:10px;}
+.sg li{font-size:.86rem;color:var(--dim);display:flex;align-items:center;gap:10px;}
+.sg li::before{content:'';width:5px;height:5px;background:var(--gold);border-radius:50%;flex-shrink:0;}
+.ai-box{margin-top:30px;padding:24px 28px;border:1px solid rgba(200,169,110,.28);background:rgba(200,169,110,.04);display:flex;gap:24px;align-items:center;justify-content:space-between;flex-wrap:wrap;}
+.ai-box-title{font-family:var(--font-display);font-size:1.3rem;letter-spacing:.05em;color:var(--gold);margin-bottom:6px;}
+.ai-box p{font-size:.84rem;color:var(--dim);line-height:1.75;}
+
+/* Projects */
+#projects{border-top:1px solid var(--border);}
+.projects-intro{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:40px;gap:30px;}
+.projects-intro p{max-width:420px;color:var(--dim);font-size:.9rem;line-height:1.85;}
+.proj-filter{display:flex;gap:8px;flex-wrap:wrap;}
+.pf{padding:8px 18px;border:1px solid var(--border);border-radius:100px;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);cursor:pointer;transition:all .2s;background:transparent;font-family:var(--font-body);}
+.pf.active,.pf:hover{border-color:var(--gold);color:var(--gold);}
+.pf.active{background:rgba(200,169,110,.12);}
+
+.featured-projects{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;border:1px solid var(--border);margin-bottom:36px;background:var(--border);}
+.fp-card{position:relative;overflow:hidden;background:var(--bg2);padding:32px;display:flex;flex-direction:column;justify-content:space-between;transition:background .4s;}
+.fp-card::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at var(--mx,50%) var(--my,50%),rgba(200,169,110,.09),transparent 60%);opacity:0;transition:opacity .4s;pointer-events:none;}
+.fp-card:hover{background:#151517;}
+.fp-card:hover::before{opacity:1;}
+.fp-badge{display:inline-flex;align-items:center;gap:6px;font-size:.62rem;letter-spacing:.15em;text-transform:uppercase;border:1px solid rgba(200,169,110,.3);border-radius:100px;padding:4px 12px;color:var(--gold);margin-bottom:18px;width:fit-content;}
+.fp-num{font-family:var(--font-display);font-size:3.6rem;color:rgba(240,236,228,.06);line-height:1;margin-bottom:8px;}
+.fp-title{font-family:var(--font-display);font-size:1.5rem;letter-spacing:.04em;margin-bottom:10px;line-height:1.15;font-weight:400;}
+.fp-desc{font-size:.84rem;color:var(--dim);line-height:1.75;margin-bottom:24px;}
+.fp-footer{display:flex;align-items:center;justify-content:space-between;gap:10px;}
+.fp-tags{display:flex;gap:6px;flex-wrap:wrap;}
+.fp-tag{font-size:.62rem;padding:3px 10px;border:1px solid var(--border);border-radius:100px;color:var(--dim);letter-spacing:.08em;}
+.fp-link{width:38px;height:38px;border:1px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:.9rem;color:var(--cream);transition:border-color .3s,color .3s,transform .3s;}
+.fp-link:hover{border-color:var(--gold);color:var(--gold);transform:rotate(45deg);}
+
+.other-list{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;border:1px solid var(--border);background:var(--border);}
+.ol-item{padding:28px 32px;background:var(--bg2);display:flex;flex-direction:column;gap:8px;transition:background .3s;}
+.ol-item:hover{background:#151517;}
+.ol-head{display:flex;justify-content:space-between;align-items:center;}
+.ol-n{font-family:var(--font-display);font-size:2rem;color:rgba(240,236,228,.1);}
+.ol-title{font-weight:500;font-size:.98rem;}
+.ol-desc{font-size:.82rem;color:var(--dim);line-height:1.7;}
+
+/* Experience */
+#experience{background:var(--bg2);border-top:1px solid var(--border);}
+.exp-list{max-width:880px;margin:0 auto;}
+.exp-item{display:grid;grid-template-columns:200px 1fr;gap:36px;padding:36px 0;border-bottom:1px solid var(--border);}
+.exp-item:last-child{border-bottom:none;}
+.exp-year{font-family:var(--font-display);font-size:1.15rem;letter-spacing:.06em;color:var(--gold);padding-top:4px;}
+.exp-role{font-family:var(--font-display);font-size:1.75rem;letter-spacing:.03em;margin-bottom:6px;}
+.exp-org{font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;opacity:.85;margin-bottom:12px;}
+.exp-desc{font-size:.88rem;color:var(--dim);line-height:1.85;}
+
+/* Contact */
+#contact{border-top:1px solid var(--border);}
+.contact-hero{text-align:center;padding:40px 0 55px;border-bottom:1px solid var(--border);margin-bottom:55px;}
+.contact-hero h2{font-family:var(--font-display);font-size:clamp(3.4rem,10vw,8.5rem);letter-spacing:.02em;line-height:.95;margin-bottom:18px;font-weight:400;}
+.contact-hero p{color:var(--dim);max-width:540px;margin:0 auto;font-size:.92rem;line-height:1.85;}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start;}
+.contact-link-item{display:flex;align-items:center;gap:20px;padding:20px 0;border-bottom:1px solid var(--border);transition:padding .3s;}
+.contact-link-item:hover{padding-left:8px;}
+.cli-icon{width:44px;height:44px;border:1px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:border-color .3s,color .3s;color:var(--dim);}
+.cli-icon svg{width:18px;height:18px;fill:currentColor;}
+.contact-link-item:hover .cli-icon{border-color:var(--gold);color:var(--gold);}
+.cli-info small{display:block;font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;color:var(--dim);margin-bottom:3px;}
+.cli-info span{font-size:.94rem;}
+.cf-group{margin-bottom:18px;}
+.cf-group label{display:block;font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;color:var(--dim);margin-bottom:6px;}
+.cf-group input,.cf-group textarea{width:100%;background:transparent;border:none;border-bottom:1px solid var(--border);padding:12px 0;color:var(--cream);font-family:var(--font-body);font-size:.92rem;font-weight:300;outline:none;transition:border-color .3s;}
+.cf-group input:focus,.cf-group textarea:focus{border-color:var(--gold);}
+.cf-group textarea{resize:none;min-height:100px;}
+.btn-send{margin-top:20px;display:inline-flex;align-items:center;gap:12px;padding:14px 36px;border:1px solid var(--gold);border-radius:100px;font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;font-weight:500;cursor:pointer;background:var(--gold);color:var(--bg);transition:background .3s,color .3s,transform .3s;font-family:var(--font-body);}
+.btn-send:hover{background:transparent;color:var(--gold);transform:translateY(-2px);}
+
+/* Footer (plain div — NOT a <nav>, so it never overlaps the header) */
+footer{border-top:1px solid var(--border);padding:34px 5%;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:20px;}
+.footer-name{font-family:var(--font-display);font-size:1.6rem;letter-spacing:.08em;}
+.footer-name span{color:var(--gold);}
+.footer-copy{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);}
+.footer-links{display:flex;gap:24px;}
+.footer-links a{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);transition:color .2s;}
+.footer-links a:hover{color:var(--gold);}
+
+/* ===== URDU / RTL ===== */
+body.rtl{direction:rtl;font-family:var(--font-urdu);line-height:2.1;}
+body.rtl *{letter-spacing:0 !important;}
+body.rtl .nav-name,body.rtl .hero-main-name,body.rtl .hero-side-info .role,body.rtl .typing-word,
+body.rtl .about-quote,body.rtl .stat-num,body.rtl .fp-title,body.rtl .exp-role,
+body.rtl .contact-hero h2,body.rtl .footer-name,body.rtl .ai-box-title,body.rtl .ticker-item,
+body.rtl .sg-title,body.rtl h2.section-title{font-family:var(--font-urdu);}
+body.rtl #nav{direction:ltr;}
+body.rtl .nav-links{direction:rtl;}
+body.rtl .nav-links a,body.rtl .nav-cv{font-family:var(--font-urdu);}
+body.rtl .hero-main-name{font-size:clamp(3.2rem,9vw,7rem);line-height:1.5;}
+body.rtl .hero-main-name .n2{-webkit-text-stroke:0;color:var(--gold);}
+body.rtl h2.section-title{line-height:1.5;font-size:clamp(2.1rem,5vw,3.6rem);}
+body.rtl .hero-side-info{text-align:left;}
+body.rtl .hero-label::before,body.rtl .section-tag::before{display:none;}
+body.rtl .hero-label::after{content:'';width:30px;height:1px;background:var(--gold);}
+body.rtl .section-tag::after{content:'';width:24px;height:1px;background:var(--gold);}
+body.rtl .about-text{border-left:none;border-right:1px solid var(--border);padding-left:0;padding-right:32px;}
+body.rtl .ticker-inner{animation-direction:reverse;}
+body.rtl .contact-link-item:hover{padding-left:0;padding-right:8px;}
+
+@media(max-width:1100px){
+  .skill-groups{grid-template-columns:repeat(2,1fr);}
+}
+@media(max-width:1020px){
+  .nav-links{display:none;}
+  .nav-actions{border-left:none;padding-left:0;}
+}
+@media(max-width:960px){
+  .featured-projects{grid-template-columns:repeat(2,1fr);}
+}
+@media(max-width:850px){
+  .about-grid,.contact-grid,.featured-projects,.other-list{grid-template-columns:1fr;}
+  .projects-intro{flex-direction:column;align-items:flex-start;}
+  .exp-item{grid-template-columns:1fr;gap:10px;}
+  .hero-top{flex-direction:column;align-items:flex-start;}
+  .hero-side-info{text-align:left;margin-top:16px;}
+  .hero-bottom{flex-direction:column;align-items:flex-start;gap:22px;}
+  #nav .icon-btn,#nav .nav-cv{display:none;}
+  .mob-btn{display:flex;}
+  footer{flex-direction:column;align-items:flex-start;}
+  .section{padding:80px 5%;}
+}
+@media(max-width:560px){
+  .skill-groups{grid-template-columns:1fr;}
+}
+::selection{background:rgba(200,169,110,.25);color:var(--gold);}
+::-webkit-scrollbar{width:4px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:var(--gold);}
+@media(prefers-reduced-motion:reduce){*{animation:none !important;transition:none !important;}.rv{opacity:1;transform:none;}}
+</style>
+</head>
+<body>
+
+<div id="loader">
+  <div class="loader-name">AMMAD</div>
+  <div class="loader-line"></div>
+</div>
+<div id="sp"></div>
+
+<!-- ===== HEADER ===== -->
+<header id="nav">
+  <a href="#hero" class="nav-name">AMMAD<span>.</span></a>
+  <div class="nav-right">
+    <ul class="nav-links">
+      <li><a href="#about" data-en="About" data-ur="تعارف">About</a></li>
+      <li><a href="#skills" data-en="Skills" data-ur="مہارتیں">Skills</a></li>
+      <li><a href="#projects" data-en="Projects" data-ur="پروجیکٹس">Projects</a></li>
+      <li><a href="#experience" data-en="Experience" data-ur="تجربہ">Experience</a></li>
+      <li><a href="#contact" data-en="Contact" data-ur="رابطہ">Contact</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a class="icon-btn" href="https://www.linkedin.com/in/ammad-khan-404748308/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" title="LinkedIn">
+        <svg viewBox="0 0 24 24"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg>
+      </a>
+      <a class="icon-btn" href="https://github.com/Ammad1818" target="_blank" rel="noopener noreferrer" aria-label="GitHub" title="GitHub">
+        <svg viewBox="0 0 24 24"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.7 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .3"/></svg>
+      </a>
+      <a href="Muhammad_Ammad_CV.pdf" download class="nav-cv" data-en="Download CV" data-ur="CV ڈاؤن لوڈ">Download CV</a>
+      <div class="lang-pill" id="langPill" role="button" tabindex="0" aria-label="Switch Language">
+        <span class="lpb on" id="lEN">EN</span>
+        <span class="lps">|</span>
+        <span class="lpb" id="lUR">اردو</span>
+      </div>
+      <button class="mob-btn" id="mobBtn" aria-label="Menu">☰</button>
+    </div>
+  </div>
+</header>
+
+<div class="mob-drawer" id="mobDrawer">
+  <a class="m-link" href="#about" data-en="About" data-ur="تعارف">About</a>
+  <a class="m-link" href="#skills" data-en="Skills" data-ur="مہارتیں">Skills</a>
+  <a class="m-link" href="#projects" data-en="Projects" data-ur="پروجیکٹس">Projects</a>
+  <a class="m-link" href="#experience" data-en="Experience" data-ur="تجربہ">Experience</a>
+  <a class="m-link" href="#contact" data-en="Contact" data-ur="رابطہ">Contact</a>
+  <div class="mob-social">
+    <a class="icon-btn" href="https://www.linkedin.com/in/ammad-khan-404748308/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+      <svg viewBox="0 0 24 24"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg>
+    </a>
+    <a class="icon-btn" href="https://github.com/Ammad1818" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+      <svg viewBox="0 0 24 24"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.7 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .3"/></svg>
+    </a>
+    <a href="Muhammad_Ammad_CV.pdf" download class="nav-cv" data-en="Download CV" data-ur="CV ڈاؤن لوڈ">Download CV</a>
+  </div>
+</div>
+
+<!-- ===== HERO ===== -->
+<section id="hero">
+  <div class="hero-bg-text" aria-hidden="true">AMMAD</div>
+  <div class="geo geo1"></div>
+  <div class="geo geo2"></div>
+
+  <div class="hero-top">
+    <div class="hero-name-block">
+      <div class="hero-label" data-en="Software Engineering Graduate · Karachi" data-ur="سافٹ ویئر انجینئرنگ گریجویٹ · کراچی">Software Engineering Graduate · Karachi</div>
+      <h1 class="hero-main-name">
+        <span class="n1" data-en="MUHAMMAD" data-ur="محمد">MUHAMMAD</span>
+        <span class="n2" data-en="AMMAD" data-ur="عماد">AMMAD</span>
+      </h1>
+    </div>
+    <div class="hero-side-info">
+      <div class="role" data-en="Web &amp; AI Developer" data-ur="ویب اور AI ڈویلپر">Web &amp; AI Developer</div>
+      <p data-en="Building fast, responsive web platforms, e-commerce storefronts, Python/SQL tools, and AI-powered digital branding." data-ur="تیز، ریسپانسیو ویب پلیٹ فارمز، ای کامرس اسٹورز، Python/SQL سسٹمز اور AI ڈیجیٹل برانڈنگ بنانا۔">Building fast, responsive web platforms, e-commerce storefronts, Python/SQL tools, and AI-powered digital branding.</p>
+    </div>
+  </div>
+
+  <div class="hero-bottom">
+    <div class="typing-area">
+      <span class="typing-label" data-en="Focus" data-ur="مہارت">Focus</span>
+      <span class="typing-word" id="tw"></span><span class="t-cursor"></span>
+    </div>
+    <div class="hero-cta-group">
+      <a href="Muhammad_Ammad_CV.pdf" download class="btn-cv">
+        <span>↓</span>
+        <span data-en="Download CV" data-ur="CV ڈاؤن لوڈ کریں">Download CV</span>
+      </a>
+      <a href="#projects" class="btn-ghost" data-en="View Work" data-ur="کام دیکھیں">View Work</a>
+      <a href="https://www.linkedin.com/in/ammad-khan-404748308/" target="_blank" rel="noopener noreferrer" class="btn-ghost">
+        <svg viewBox="0 0 24 24"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.56V9h3.56v11.45z"/></svg>
+        LinkedIn
+      </a>
+      <a href="https://github.com/Ammad1818" target="_blank" rel="noopener noreferrer" class="btn-ghost">
+        <svg viewBox="0 0 24 24"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.7 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .3"/></svg>
+        GitHub
+      </a>
+    </div>
+  </div>
+</section>
+
+<div class="ticker"><div class="ticker-inner" id="t1"></div></div>
+
+<!-- ===== ABOUT ===== -->
+<section id="about" class="section">
+  <div class="section-tag rv" data-en="About Me" data-ur="میرے بارے میں">About Me</div>
+  <div class="about-grid rv">
+    <div>
+      <div class="about-quote">
+        <span data-en="Where <em>code</em> meets <em>creative craft.</em>" data-ur="جہاں <em>کوڈ</em> اور <em>تخلیق</em> ملتے ہیں۔">Where <em>code</em> meets <em>creative craft.</em></span>
+      </div>
+      <div class="about-stats">
+        <div class="stat"><div class="stat-num">5+</div><div class="stat-label" data-en="Live Web Projects" data-ur="لائیو ویب پروجیکٹس">Live Web Projects</div></div>
+        <div class="stat"><div class="stat-num">8</div><div class="stat-label" data-en="Featured Works" data-ur="منتخب کام">Featured Works</div></div>
+        <div class="stat"><div class="stat-num">1</div><div class="stat-label" data-en="Enterprise IS Internship" data-ur="انٹرپرائز انٹرنشپ">Enterprise IS Internship</div></div>
+        <div class="stat"><div class="stat-num">2026</div><div class="stat-label" data-en="BS SE Graduate" data-ur="بی ایس گریجویٹ">BS SE Graduate</div></div>
+      </div>
+    </div>
+    <div class="about-text">
+      <p data-en="I'm a <strong>BS Software Engineering graduate</strong> from Sindh Madressatul Islam University with enterprise Information Systems internship experience at <strong>FFC-PQ, Karachi</strong>. I build practical web platforms with <strong>React.js</strong>, modern JavaScript interfaces, and structured backend tools with <strong>Python &amp; SQL</strong>." data-ur="میں سندھ مدرسۃ الاسلام یونیورسٹی سے <strong>BS سافٹ ویئر انجینئرنگ گریجویٹ</strong> ہوں اور <strong>FFC-PQ کراچی</strong> میں انفارمیشن سسٹمز انٹرنشپ کا تجربہ رکھتا ہوں۔ میں <strong>React.js</strong>، جدید JavaScript ویب سائٹس اور <strong>Python / SQL</strong> پر کام کرتا ہوں۔">I'm a <strong>BS Software Engineering graduate</strong> from Sindh Madressatul Islam University with enterprise Information Systems internship experience at <strong>FFC-PQ, Karachi</strong>. I build practical web platforms with <strong>React.js</strong>, modern JavaScript interfaces, and structured backend tools with <strong>Python &amp; SQL</strong>.</p>
+      <br/>
+      <p data-en="Alongside software development, I specialize in <strong>AI-powered content &amp; digital branding</strong>—using ChatGPT, Google Gemini, and Flow.ai to produce brand visuals and marketing videos from concept to launch." data-ur="سافٹ ویئر ڈویلپمنٹ کے ساتھ ساتھ میں <strong>AI ڈیجیٹل برانڈنگ</strong> میں بھی مہارت رکھتا ہوں — ChatGPT، Gemini اور Flow.ai کے ذریعے برانڈ ویژولز اور مارکیٹنگ ویڈیوز بناتا ہوں۔">Alongside software development, I specialize in <strong>AI-powered content &amp; digital branding</strong>—using ChatGPT, Google Gemini, and Flow.ai to produce brand visuals and marketing videos from concept to launch.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SKILLS ===== -->
+<section id="skills" class="section">
+  <div class="section-tag rv" data-en="Expertise" data-ur="مہارت">Expertise</div>
+  <h2 class="section-title rv" data-en="Technical <em>Skills</em>" data-ur="تکنیکی <em>مہارتیں</em>">Technical <em>Skills</em></h2>
+  <p class="skills-lead rv" data-en="Full-cycle digital capability — from responsive React interfaces and e-commerce UI to Python automation, SQL databases, and AI-driven brand production." data-ur="مکمل ڈیجیٹل مہارت — ریسپانسیو ویب سائٹس اور ای کامرس سے لے کر Python، SQL اور AI برانڈنگ تک۔">Full-cycle digital capability — from responsive React interfaces and e-commerce UI to Python automation, SQL databases, and AI-driven brand production.</p>
+
+  <div class="skill-groups rv">
+    <div class="sg">
+      <div class="sg-title" data-en="Frontend" data-ur="فرنٹ اینڈ">Frontend</div>
+      <div class="sg-sub" data-en="Web Interfaces" data-ur="ویب انٹرفیس">Web Interfaces</div>
+      <ul><li>HTML5 / CSS3</li><li>JavaScript (ES6+)</li><li>React.js</li><li>Responsive UI / UX</li></ul>
+    </div>
+    <div class="sg">
+      <div class="sg-title" data-en="Backend &amp; Data" data-ur="بیک اینڈ اور ڈیٹا">Backend &amp; Data</div>
+      <div class="sg-sub" data-en="Logic &amp; Storage" data-ur="لاجک اور اسٹوریج">Logic &amp; Storage</div>
+      <ul><li>Python (OOP)</li><li>Matplotlib</li><li>SQL &amp; Database Design</li><li>Query Optimization</li></ul>
+    </div>
+    <div class="sg">
+      <div class="sg-title" data-en="Tools" data-ur="ٹولز">Tools</div>
+      <div class="sg-sub" data-en="Workflow" data-ur="ورک فلو">Workflow</div>
+      <ul><li>Git &amp; GitHub</li><li>Base44</li><li>VS Code</li><li>Technical Reporting</li></ul>
+    </div>
+    <div class="sg">
+      <div class="sg-title" data-en="AI Creative" data-ur="AI تخلیقی">AI Creative</div>
+      <div class="sg-sub" data-en="Branding &amp; Video" data-ur="برانڈنگ اور ویڈیو">Branding &amp; Video</div>
+      <ul><li>Flow.ai</li><li>ChatGPT</li><li>Google Gemini</li><li>Logos &amp; Social Assets</li></ul>
+    </div>
+  </div>
+
+  <div class="ai-box rv">
+    <div>
+      <div class="ai-box-title" data-en="AI Creative &amp; Branding Workflow" data-ur="AI تخلیقی اور برانڈنگ ورک فلو">AI Creative &amp; Branding Workflow</div>
+      <p data-en="Concept → AI Image Editing (ChatGPT &amp; Gemini) → AI Video Production (Flow.ai) → Logos, Banners &amp; Social Assets." data-ur="تصور ← AI امیج ایڈیٹنگ (ChatGPT اور Gemini) ← AI ویڈیو (Flow.ai) ← لوگو اور برانڈنگ۔">Concept → AI Image Editing (ChatGPT &amp; Gemini) → AI Video Production (Flow.ai) → Logos, Banners &amp; Social Assets.</p>
+    </div>
+  </div>
+</section>
+
+<div class="ticker rev"><div class="ticker-inner" id="t2"></div></div>
+
+<!-- ===== PROJECTS ===== -->
+<section id="projects" class="section">
+  <div class="section-tag rv" data-en="Portfolio" data-ur="پورٹ فولیو">Portfolio</div>
+  <h2 class="section-title rv" data-en="Selected <em>Work</em>" data-ur="منتخب <em>کام</em>">Selected <em>Work</em></h2>
+  <div class="projects-intro rv">
+    <p data-en="E-commerce storefronts, live web platforms, AI creative branding, and Python/SQL systems." data-ur="لائیو ای کامرس ویب سائٹس، ویب پلیٹ فارمز، AI برانڈنگ اور Python/SQL سسٹمز۔">E-commerce storefronts, live web platforms, AI creative branding, and Python/SQL systems.</p>
+    <div class="proj-filter">
+      <button class="pf active" data-filter="all" data-en="All" data-ur="سب">All</button>
+      <button class="pf" data-filter="web" data-en="Web &amp; AI" data-ur="ویب اور AI">Web &amp; AI</button>
+      <button class="pf" data-filter="python" data-en="Python &amp; SQL" data-ur="پائتھون / SQL">Python &amp; SQL</button>
+    </div>
+  </div>
+
+  <div class="featured-projects rv">
+    <div class="fp-card project-item" data-cat="web" onmousemove="cardGlow(this,event)">
+      <div>
+        <div class="fp-badge" data-en="Flagship UI Demo" data-ur="فلیگ شپ ڈیمو">Flagship UI Demo</div>
+        <div class="fp-num">01</div>
+        <h3 class="fp-title" data-en="CHRONOS — Luxury Watches" data-ur="کرونوس — لگژری گھڑیاں">CHRONOS — Luxury Watches</h3>
+        <p class="fp-desc" data-en="Interactive luxury horology e-commerce store with live SVG movement, quick-view modal, search, wishlist, promo code, and persistent cart." data-ur="لائیو گھڑی، کوئیک ویو موڈل، سرچ، وش لسٹ اور شاپنگ بیگ کے ساتھ لگژری ای کامرس اسٹور۔">Interactive luxury horology e-commerce store with live SVG movement, quick-view modal, search, wishlist, promo code, and persistent cart.</p>
+      </div>
+      <div class="fp-footer">
+        <div class="fp-tags"><span class="fp-tag">E-Commerce</span><span class="fp-tag">JavaScript</span><span class="fp-tag">UI/UX</span></div>
+        <a href="chronos.html" class="fp-link" title="Open Live Demo" aria-label="Open CHRONOS demo">↗</a>
+      </div>
+    </div>
+
+    <div class="fp-card project-item" data-cat="web" onmousemove="cardGlow(this,event)">
+      <div>
+        <div class="fp-badge" data-en="Live Platform" data-ur="لائیو">Live Platform</div>
+        <div class="fp-num">02</div>
+        <h3 class="fp-title" data-en="Sindh Smart Study Platform" data-ur="سندھ اسمارٹ اسٹڈی پلیٹ فارم">Sindh Smart Study Platform</h3>
+        <p class="fp-desc" data-en="AI-powered educational platform for Sindh Board students featuring smart notes, interactive quizzes, and exam prep resources." data-ur="سندھ بورڈ طلباء کے لیے AI تعلیمی پلیٹ فارم — اسمارٹ نوٹس، کوئزز اور امتحان کی تیاری۔">AI-powered educational platform for Sindh Board students featuring smart notes, interactive quizzes, and exam prep resources.</p>
+      </div>
+      <div class="fp-footer">
+        <div class="fp-tags"><span class="fp-tag">Base44</span><span class="fp-tag">EdTech</span><span class="fp-tag">AI</span></div>
+        <a href="https://radiant-smart-exam-genius.base44.app" target="_blank" rel="noopener noreferrer" class="fp-link" title="Live Demo" aria-label="Open live demo">↗</a>
+      </div>
+    </div>
+
+    <div class="fp-card project-item" data-cat="web" onmousemove="cardGlow(this,event)">
+      <div>
+        <div class="fp-badge" data-en="Live Booking" data-ur="لائیو بکنگ">Live Booking</div>
+        <div class="fp-num">03</div>
+        <h3 class="fp-title" data-en="BA Baldia Indoor Cricket" data-ur="بی اے بلدیہ انڈور کرکٹ">BA Baldia Indoor Cricket</h3>
+        <p class="fp-desc" data-en="Online cricket ground booking system with slot management, real-time availability, and seamless reservations." data-ur="آن لائن کرکٹ گراؤنڈ بکنگ سسٹم جس میں اسلاٹ مینجمنٹ اور ریزرویشن شامل ہے۔">Online cricket ground booking system with slot management, real-time availability, and seamless reservations.</p>
+      </div>
+      <div class="fp-footer">
+        <div class="fp-tags"><span class="fp-tag">Web App</span><span class="fp-tag">Booking</span></div>
+        <a href="https://ba-baldia-indoor-cricket-booking-c-760de499.base44.app" target="_blank" rel="noopener noreferrer" class="fp-link" title="Live Demo" aria-label="Open live demo">↗</a>
+      </div>
+    </div>
+
+    <div class="fp-card project-item" data-cat="web" onmousemove="cardGlow(this,event)">
+      <div>
+        <div class="fp-badge" data-en="Live App" data-ur="لائیو ایپ">Live App</div>
+        <div class="fp-num">04</div>
+        <h3 class="fp-title" data-en="Parcel Prime Dwell" data-ur="پارسل پرائم ڈویل">Parcel Prime Dwell</h3>
+        <p class="fp-desc" data-en="Web application for managing parcel and property services with a clean, intuitive interface." data-ur="پارسل اور پراپرٹی سروسز کے انتظام کے لیے ویب ایپ۔">Web application for managing parcel and property services with a clean, intuitive interface.</p>
+      </div>
+      <div class="fp-footer">
+        <div class="fp-tags"><span class="fp-tag">Property</span><span class="fp-tag">Mgmt</span></div>
+        <a href="https://parcel-prime-dwell.base44.app" target="_blank" rel="noopener noreferrer" class="fp-link" title="Live Demo" aria-label="Open live demo">↗</a>
+      </div>
+    </div>
+
+    <div class="fp-card project-item" data-cat="web" onmousemove="cardGlow(this,event)">
+      <div>
+        <div class="fp-badge" data-en="Sports Brand" data-ur="اسپورٹس برانڈ">Sports Brand</div>
+        <div class="fp-num">05</div>
+        <h3 class="fp-title" data-en="NK Sport Karachi" data-ur="این کے اسپورٹ کراچی">NK Sport Karachi</h3>
+        <p class="fp-desc" data-en="Responsive business &amp; product catalog website built for a tape-ball cricket brand with modern UI/UX." data-ur="ٹیپ بال کرکٹ برانڈ کے لیے جدید اور ریسپانسیو ای کامرس اور پروڈکٹ کیٹلاگ ویب سائٹ۔">Responsive business &amp; product catalog website built for a tape-ball cricket brand with modern UI/UX.</p>
+      </div>
+      <div class="fp-footer">
+        <div class="fp-tags"><span class="fp-tag">Base44</span><span class="fp-tag">E-Commerce</span></div>
+        <a href="https://github.com/Ammad1818" target="_blank" rel="noopener noreferrer" class="fp-link" title="View Project" aria-label="View project on GitHub">↗</a>
+      </div>
+    </div>
+
+    <div class="fp-card project-item" data-cat="web" onmousemove="cardGlow(this,event)">
+      <div>
+        <div class="fp-badge" data-en="AI Creative" data-ur="AI برانڈنگ">AI Creative</div>
+        <div class="fp-num">06</div>
+        <h3 class="fp-title" data-en="AI Branding &amp; Video Studio" data-ur="AI برانڈنگ اور ویڈیو اسٹوڈیو">AI Branding &amp; Video Studio</h3>
+        <p class="fp-desc" data-en="End-to-end digital branding assets—logos, product visuals with ChatGPT/Gemini, and promo videos produced with Flow.ai." data-ur="ChatGPT، Gemini اور Flow.ai کے ذریعے لوگو، برانڈ ویژولز اور مارکیٹنگ ویڈیوز۔">End-to-end digital branding assets—logos, product visuals with ChatGPT/Gemini, and promo videos produced with Flow.ai.</p>
+      </div>
+      <div class="fp-footer">
+        <div class="fp-tags"><span class="fp-tag">Flow.ai</span><span class="fp-tag">Gemini</span><span class="fp-tag">Branding</span></div>
+        <a href="#contact" class="fp-link" title="Inquire" aria-label="Inquire about branding work">↗</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="other-list rv">
+    <div class="ol-item project-item" data-cat="python">
+      <div class="ol-head"><div class="ol-n">07</div><span class="fp-tag">Python · Matplotlib · OOP</span></div>
+      <div class="ol-title" data-en="Banking Customer Management System" data-ur="بینکنگ کسٹمر مینجمنٹ سسٹم">Banking Customer Management System</div>
+      <div class="ol-desc" data-en="Console banking application supporting deposits, withdrawals, high-value customer detection, and Matplotlib visual balance charts." data-ur="پائتھون اور Matplotlib چارٹس کے ساتھ ڈپازٹ، نکلوانے اور کسٹمر بیلنس ٹریکنگ سسٹم۔">Console banking application supporting deposits, withdrawals, high-value customer detection, and Matplotlib visual balance charts.</div>
+    </div>
+    <div class="ol-item project-item" data-cat="python">
+      <div class="ol-head"><div class="ol-n">08</div><span class="fp-tag">SQL · Database Design</span></div>
+      <div class="ol-title" data-en="School Database Management System" data-ur="اسکول ڈیٹا بیس سسٹم">School Database Management System</div>
+      <div class="ol-desc" data-en="Relational SQL system managing student records and academic data with optimized queries for storage, retrieval, and reporting." data-ur="طلباء کے ریکارڈ اور تعلیمی ڈیٹا کے انتظام اور رپورٹنگ کے لیے SQL ڈیٹا بیس سسٹم۔">Relational SQL system managing student records and academic data with optimized queries for storage, retrieval, and reporting.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== EXPERIENCE ===== -->
+<section id="experience" class="section">
+  <div class="section-tag rv" data-en="Journey" data-ur="سفر">Journey</div>
+  <h2 class="section-title rv" data-en="<em>Experience</em> &amp; Education" data-ur="<em>تجربہ</em> اور تعلیم"><em>Experience</em> &amp; Education</h2>
+  <div class="exp-list">
+    <div class="exp-item rv">
+      <div class="exp-year" data-en="Jun – Aug 2025" data-ur="جون – اگست ۲۰۲۵">Jun – Aug 2025</div>
+      <div class="exp-content">
+        <div class="exp-role" data-en="Information Systems Intern" data-ur="انفارمیشن سسٹمز انٹرن">Information Systems Intern</div>
+        <div class="exp-org" data-en="FFC-PQ (Fauji Fertilizer Company) · Karachi" data-ur="ایف ایف سی پی کیو (فوجی فرٹیلائزر کمپنی) · کراچی">FFC-PQ (Fauji Fertilizer Company) · Karachi</div>
+        <div class="exp-desc" data-en="Assisted in managing enterprise information systems and day-to-day IT operations. Supported SQL database maintenance, troubleshooting, system monitoring, data management, and technical reporting." data-ur="انٹرپرائز انفارمیشن سسٹمز، روزمرہ IT آپریشنز، SQL ڈیٹا بیس مینٹیننس، سسٹم مانیٹرنگ اور ڈیٹا رپورٹنگ میں عملی خدمات انجام دیں۔">Assisted in managing enterprise information systems and day-to-day IT operations. Supported SQL database maintenance, troubleshooting, system monitoring, data management, and technical reporting.</div>
+      </div>
+    </div>
+    <div class="exp-item rv">
+      <div class="exp-year" data-en="2023 – 2026" data-ur="۲۰۲۳ – ۲۰۲۶">2023 – 2026</div>
+      <div class="exp-content">
+        <div class="exp-role" data-en="BS Software Engineering" data-ur="بی ایس سافٹ ویئر انجینئرنگ">BS Software Engineering</div>
+        <div class="exp-org" data-en="Sindh Madressatul Islam University · Karachi" data-ur="سندھ مدرسۃ الاسلام یونیورسٹی · کراچی">Sindh Madressatul Islam University · Karachi</div>
+        <div class="exp-desc" data-en="Completed degree in Software Engineering covering web development, OOP, databases, and software design—applying coursework through live client platforms and Python/SQL projects." data-ur="سندھ مدرسۃ الاسلام یونیورسٹی سے سافٹ ویئر انجینئرنگ کی ڈگری مکمل کی، جس میں ویب، OOP اور ڈیٹا بیسز شامل ہیں۔">Completed degree in Software Engineering covering web development, OOP, databases, and software design—applying coursework through live client platforms and Python/SQL projects.</div>
+      </div>
+    </div>
+    <div class="exp-item rv">
+      <div class="exp-year" data-en="2020 – 2022" data-ur="۲۰۲۰ – ۲۰۲۲">2020 – 2022</div>
+      <div class="exp-content">
+        <div class="exp-role" data-en="Intermediate (Pre-Engineering)" data-ur="انٹرمیڈیٹ (پری انجینئرنگ)">Intermediate (Pre-Engineering)</div>
+        <div class="exp-org" data-en="Sindh Muslim Govt Science College · Karachi" data-ur="سندھ مسلم گورنمنٹ سائنس کالج · کراچی">Sindh Muslim Govt Science College · Karachi</div>
+        <div class="exp-desc" data-en="Pre-Engineering foundation in Mathematics, Physics, and analytical problem solving (Matriculation from Crescent Group of Public School, 2019)." data-ur="ریاضی، فزکس اور تجزیاتی صلاحیتوں میں پری انجینئرنگ کی تعلیم۔">Pre-Engineering foundation in Mathematics, Physics, and analytical problem solving (Matriculation from Crescent Group of Public School, 2019).</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CONTACT ===== -->
+<section id="contact" class="section">
+  <div class="contact-hero rv">
+    <h2 data-en="LET'S TALK" data-ur="رابطہ کریں">LET'S TALK</h2>
+    <p data-en="Open to full-time Software Engineer, Web Developer, and AI Creative Branding opportunities. Send a message or download my CV." data-ur="سافٹ ویئر انجینئر، ویب ڈویلپر اور AI برانڈنگ کے مواقع کے لیے دستیاب ہوں۔ پیغام بھیجیں یا میرا CV ڈاؤن لوڈ کریں۔">Open to full-time Software Engineer, Web Developer, and AI Creative Branding opportunities. Send a message or download my CV.</p>
+  </div>
+  <div class="contact-grid">
+    <div class="contact-links-col rv">
+      <a href="Muhammad_Ammad_CV.pdf" download class="contact-link-item">
+        <div class="cli-icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm0 2.5L17.5 8H14V4.5zM8 13h8v1.5H8V13zm0 3h8v1.5H8V16z"/></svg></div>
+        <div class="cli-info">
+          <small data-en="Resume / CV" data-ur="ریزیومے / سی وی">Resume / CV</small>
+          <span data-en="Download Muhammad_Ammad_CV.pdf" data-ur="Muhammad_Ammad_CV.pdf ڈاؤن لوڈ کریں">Download Muhammad_Ammad_CV.pdf</span>
+        </div>
+      </a>
+      <a href="mailto:khanammad1818@gmail.com" class="contact-link-item">
+        <div class="cli-icon"><svg viewBox="0 0 24 24"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 4.2-8 5-8-5V6l8 5 8-5v2.2z"/></svg></div>
+        <div class="cli-info">
+          <small data-en="Email" data-ur="ای میل">Email</small>
+          <span>khanammad1818@gmail.com</span>
+        </div>
+      </a>
+      <a href="tel:+923411269900" class="contact-link-item">
+        <div class="cli-icon"><svg viewBox="0 0 24 24"><path d="M6.6 10.8a15 15 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.6 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.6 3.6a1 1 0 0 1-.25 1l-2.25 2.2z"/></svg></div>
+        <div class="cli-info">
+          <small data-en="Phone / WhatsApp" data-ur="فون / واٹس ایپ">Phone / WhatsApp</small>
+          <span>0341-1269900 · Karachi, Pakistan</span>
+        </div>
+      </a>
+      <a href="https://github.com/Ammad1818" target="_blank" rel="noopener noreferrer" class="contact-link-item">
+        <div class="cli-icon"><svg viewBox="0 0 24 24"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.7 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .3"/></svg></div>
+        <div class="cli-info">
+          <small>GitHub</small>
+          <span>github.com/Ammad1818</span>
+        </div>
+      </a>
+      <a href="https://www.linkedin.com/in/ammad-khan-404748308/" target="_blank" rel="noopener noreferrer" class="contact-link-item">
+        <div class="cli-icon"><svg viewBox="0 0 24 24"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.56V9h3.56v11.45z"/></svg></div>
+        <div class="cli-info">
+          <small>LinkedIn</small>
+          <span data-en="Muhammad Ammad" data-ur="محمد عماد">Muhammad Ammad</span>
+        </div>
+      </a>
+    </div>
+
+    <form class="contact-form rv" id="contactForm">
+      <div class="cf-group">
+        <label for="cfName" data-en="Name" data-ur="نام">Name</label>
+        <input id="cfName" type="text" placeholder="Your name" data-ph-en="Your name" data-ph-ur="آپ کا نام" required/>
+      </div>
+      <div class="cf-group">
+        <label for="cfEmail" data-en="Email" data-ur="ای میل">Email</label>
+        <input id="cfEmail" type="email" placeholder="your@email.com" data-ph-en="your@email.com" data-ph-ur="آپ کی ای میل" required/>
+      </div>
+      <div class="cf-group">
+        <label for="cfMsg" data-en="Message" data-ur="پیغام">Message</label>
+        <textarea id="cfMsg" placeholder="Tell me about your project or role..." data-ph-en="Tell me about your project or role..." data-ph-ur="اپنے پروجیکٹ یا کام کے بارے میں لکھیں..." required></textarea>
+      </div>
+      <button type="submit" class="btn-send" data-en="Send Message →" data-ur="پیغام بھیجیں ←">Send Message →</button>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-name">AMMAD<span>.</span></div>
+  <div class="footer-copy" data-en="© 2026 Muhammad Ammad · Karachi, Pakistan" data-ur="© ۲۰۲۶ محمد عماد · کراچی، پاکستان">© 2026 Muhammad Ammad · Karachi, Pakistan</div>
+  <div class="footer-links">
+    <a href="Muhammad_Ammad_CV.pdf" download data-en="CV" data-ur="سی وی">CV</a>
+    <a href="mailto:khanammad1818@gmail.com" data-en="Email" data-ur="ای میل">Email</a>
+    <a href="https://github.com/Ammad1818" target="_blank" rel="noopener noreferrer">GitHub</a>
+    <a href="https://www.linkedin.com/in/ammad-khan-404748308/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+  </div>
+</footer>
+
+<script>
+/* Loader — hides on load, with a fail-safe so it can never block the page */
+(function(){
+  const l=document.getElementById('loader');
+  const hide=()=>{l.classList.add('gone');setTimeout(()=>{l.style.display='none';},600);};
+  window.addEventListener('load',()=>setTimeout(hide,500));
+  setTimeout(hide,2500);
+})();
+
+/* Scroll progress, sticky header, active link */
+const sections=[...document.querySelectorAll('section[id]')];
+const navLinks=[...document.querySelectorAll('.nav-links a')];
+function onScroll(){
+  const h=document.documentElement.scrollHeight-innerHeight;
+  document.getElementById('sp').style.width=(h>0?(scrollY/h)*100:0)+'%';
+  document.getElementById('nav').classList.toggle('compact',scrollY>60);
+  let current='';
+  sections.forEach(s=>{if(scrollY>=s.offsetTop-160)current=s.id;});
+  navLinks.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+current));
+}
+window.addEventListener('scroll',onScroll,{passive:true});
+onScroll();
+
+/* Mobile drawer */
+const mobBtn=document.getElementById('mobBtn'),mobDrawer=document.getElementById('mobDrawer');
+mobBtn.addEventListener('click',()=>mobDrawer.classList.toggle('open'));
+mobDrawer.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>mobDrawer.classList.remove('open')));
+
+/* Scroll reveal */
+const obs=new IntersectionObserver(es=>{
+  es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('on');obs.unobserve(e.target);}});
+},{threshold:.08,rootMargin:'0px 0px -30px 0px'});
+document.querySelectorAll('.rv').forEach(el=>obs.observe(el));
+
+/* Bilingual ticker */
+let lang='en';
+const ticker_en=['React.js','E-Commerce UI','Python & SQL','Web Developer','AI Branding','Flow.ai','Open to Work'];
+const ticker_ur=['ری ایکٹ ڈویلپر','ای کامرس یو آئی','پائتھون اور SQL','ویب ڈویلپر','AI برانڈنگ','فلو اے آئی','کام کے لیے دستیاب'];
+function buildTicker(id){
+  const c=document.getElementById(id);
+  const items=lang==='en'?ticker_en:ticker_ur;
+  c.innerHTML=[...items,...items].map(t=>`<div class="ticker-item"><span class="ticker-dot">✦</span>${t}</div>`).join('');
+}
+buildTicker('t1');buildTicker('t2');
+
+/* Typing effect */
+const phrases_en=['React & Web Apps','E-Commerce UI','Python & SQL Tools','AI Digital Branding'];
+const phrases_ur=['ری ایکٹ اور ویب ایپس','ای کامرس ویب سائٹس','پائتھون اور SQL','AI ڈیجیٹل برانڈنگ'];
+let pi=0,ci=0,del=false,typeTimer=null;
+function type(){
+  clearTimeout(typeTimer);
+  const ph=lang==='en'?phrases_en:phrases_ur;
+  const w=ph[pi%ph.length];
+  const el=document.getElementById('tw');
+  if(!del){
+    el.textContent=w.slice(0,++ci);
+    if(ci>=w.length){del=true;typeTimer=setTimeout(type,1700);return;}
+  }else{
+    el.textContent=w.slice(0,--ci);
+    if(ci<=0){del=false;pi=(pi+1)%ph.length;}
+  }
+  typeTimer=setTimeout(type,del?45:80);
+}
+type();
+
+/* Language switcher */
+function applyLang(){
+  const ur=lang==='ur';
+  document.documentElement.lang=lang;
+  document.body.classList.toggle('rtl',ur);
+  document.getElementById('lEN').classList.toggle('on',!ur);
+  document.getElementById('lUR').classList.toggle('on',ur);
+  document.querySelectorAll('[data-en],[data-ur]').forEach(el=>{
+    const v=el.getAttribute('data-'+lang);
+    if(v)el.innerHTML=v;
+  });
+  document.querySelectorAll('[data-ph-en],[data-ph-ur]').forEach(el=>{
+    const ph=el.getAttribute('data-ph-'+lang);
+    if(ph)el.setAttribute('placeholder',ph);
+  });
+  buildTicker('t1');buildTicker('t2');
+  ci=0;del=false;type();
+}
+const langPill=document.getElementById('langPill');
+langPill.addEventListener('click',()=>{lang=lang==='en'?'ur':'en';applyLang();});
+langPill.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();langPill.click();}});
+
+/* Project filter */
+const filterBtns=document.querySelectorAll('.pf');
+const projectItems=document.querySelectorAll('.project-item');
+filterBtns.forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    filterBtns.forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    const f=btn.dataset.filter;
+    projectItems.forEach(item=>{
+      item.style.display=(f==='all'||item.dataset.cat===f)?'flex':'none';
+    });
+  });
+});
+
+/* Card spotlight */
+function cardGlow(card,e){
+  const r=card.getBoundingClientRect();
+  card.style.setProperty('--mx',((e.clientX-r.left)/r.width*100)+'%');
+  card.style.setProperty('--my',((e.clientY-r.top)/r.height*100)+'%');
+}
+
+/* Contact form → mailto */
+document.getElementById('contactForm').addEventListener('submit',function(e){
+  e.preventDefault();
+  const n=document.getElementById('cfName').value.trim();
+  const em=document.getElementById('cfEmail').value.trim();
+  const msg=document.getElementById('cfMsg').value.trim();
+  const subj=encodeURIComponent(`Portfolio Inquiry from ${n}`);
+  const body=encodeURIComponent(`Name: ${n}\nEmail: ${em}\n\nMessage:\n${msg}`);
+  window.location.href=`mailto:khanammad1818@gmail.com?subject=${subj}&body=${body}`;
+});
+</script>
+</body>
+</html>
